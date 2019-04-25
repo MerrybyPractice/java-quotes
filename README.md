@@ -1,6 +1,6 @@
 # java-quotes
 
-Java Quotes is a proof of concept json to java parser that utilizes Gson. Reading from the native json file, it will return 
+Java Quotes is a proof of concept json to java parser utilizing Gson and the single responsibility principal. Reading from the native json file, it will return 
 a random quote from a variety of individuals such as Tove Jansson, Miguel Ruiz, Patrick Ness, Dante Aligheri, and Paulo Coelho
 - among other notables. It will also accept external json files.   
 
@@ -40,10 +40,10 @@ The renderQuotes class has three methods, as follows:
 
 Quotes has the following public properties: 
 
-   * String[] tags
-   * String author
-   * String likes
-   * String text 
+   :closed_book: String[] tags
+   :orange_book: String author
+   :green_book: String likes
+   :blue_book: String text 
 
 These properties feed into the toString method, which overloads Java's prepackaged toString to return a formatted quote.
  
