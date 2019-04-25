@@ -1,8 +1,7 @@
 # java-quotes
 
 Java Quotes is a proof of concept json to java parser utilizing Gson and the single responsibility principal. Reading from the native json file, it will return 
-a random quote from a variety of individuals such as Tove Jansson, Miguel Ruiz, Patrick Ness, Dante Aligheri, and Paulo Coelho
-- among other notables. It will also accept external json files.   
+a random quote from a variety of individuals such as Tove Jansson, Miguel Ruiz, Patrick Ness, Dante Aligheri, and Paulo Coelho -- among other notables. It will also accept external json files.   
 
 ## Installation 
 
