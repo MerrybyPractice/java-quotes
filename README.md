@@ -41,8 +41,11 @@ The renderQuotes class has three methods, as follows:
 Quotes has the following public properties: 
 
    :closed_book: String[] tags
+   
    :orange_book: String author
+   
    :green_book: String likes
+   
    :blue_book: String text 
 
 These properties feed into the toString method, which overloads Java's prepackaged toString to return a formatted quote.
