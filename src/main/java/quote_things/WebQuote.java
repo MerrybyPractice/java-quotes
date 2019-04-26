@@ -9,7 +9,7 @@ public class WebQuote extends Quotes {
         output += quoteText;
         output += "” \n -";
         output += quoteAuthor;
-        output += "\ntags: \n0 Likes";
+        output += "\ntags: \n0 likes";
 
         return output;
     }
@@ -18,7 +18,7 @@ public class WebQuote extends Quotes {
         Quotes output = new Quotes();
         output.tags = new String[]{};
         output.author = quoteAuthor;
-        output.likes = "0 Likes";
+        output.likes = "0 likes";
         output.text = quoteText;
 
         return output;

@@ -27,8 +27,7 @@ public class RenderQuotes {
             saveQuotes[saveQuotes.length - 1] = webQuote[0];
             printQuotesToFile(saveQuotes, "./assets/quotes.json");
 
-        } catch (IOException f) {
-            f.printStackTrace();
+        } catch (Exception f) {
             System.out.println(shuffleQuotes(quoteList, Math.random()));
         }
 
@@ -50,7 +49,7 @@ public class RenderQuotes {
             buffWrit.write(json);
             buffWrit.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
     }
@@ -102,7 +101,7 @@ public class RenderQuotes {
             testQuotesParse = quotesParserGson.fromJson(quotesJson, Quotes[].class);
         } catch (IOException ex) {
             System.out.println("I could not read these files. Please try again.");
-            ex.printStackTrace();
+//            ex.printStackTrace();
         }
 
         return testQuotesParse;
