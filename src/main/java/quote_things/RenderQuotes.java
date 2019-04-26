@@ -5,29 +5,101 @@ package quote_things;
 
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class RenderQuotes {
 
     public static void main(String[] args) {
 
-        Quotes[] quoteList = getQuotes("./assets/quotes.json");
+        Quotes[] quoteList = getQuotesFromFile("./assets/quotes.json");
 
-        System.out.println(shuffleQuotes(quoteList, Math.random()));
-        ;
+        try {
+            Quotes[] webQuote = getQuotesFromWeb("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");
+            System.out.println(webQuote[0]);
+
+            Quotes[] saveQuotes = Arrays.copyOf(quoteList, quoteList.length + 1);
+            saveQuotes[saveQuotes.length - 1] = webQuote[0];
+            printQuotesToFile(saveQuotes, "./assets/quotes.json");
+
+        } catch (IOException f) {
+            f.printStackTrace();
+            System.out.println(shuffleQuotes(quoteList, Math.random()));
+        }
+
+
     }
 
-    public static Quotes[] getQuotes(String filePathString) {
+    public static void printQuotesToFile(Quotes[] quotes, String filePath) {
+        Gson gson = new Gson();
+        String json = gson.toJson(quotes);
+
+
+        try {
+            File targetFile = new File(filePath);
+            targetFile.createNewFile();
+            FileWriter fileWriter = new FileWriter(targetFile);
+            BufferedWriter buffWrit = new BufferedWriter(fileWriter);
+//            Path path = Paths.get(filePath);
+//            BufferedWriter buffWrit = Files.newBufferedWriter(path);
+            buffWrit.write(json);
+            buffWrit.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static Quotes[] getQuotesFromWeb(String urlPath) throws IOException {
+        BufferedReader webReader = getWebReader(urlPath);
+
+        String quoteJson = parseQuotes(webReader);
+        Gson gson = new Gson();
+        WebQuote parsedWebQuote = gson.fromJson(quoteJson, WebQuote.class);
+        Quotes[] output = new Quotes[]{parsedWebQuote.convertToQuote()};
+        return output;
+    }
+
+    public static BufferedReader getWebReader(String urlPath) throws IOException {
+        URL url = new URL(urlPath);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("User-Agent", "PostmanRuntime/7.11.0");
+        int status = connection.getResponseCode();
+
+        if (status == 200) {
+            InputStream inputStream = connection.getInputStream();
+            InputStreamReader inputRead = new InputStreamReader(inputStream);
+            BufferedReader outputReader = new BufferedReader(inputRead);
+
+            return outputReader;
+        } else {
+            throw new IOException("Something went wrong with the web request, error code: " + status);
+        }
+    }
+
+    /**
+     * Entry point for getting quotes, takes a file path and return the quotes
+     * Internally, calls another method to create the
+     *
+     * @param filePathString
+     * @return
+     */
+    public static Quotes[] getQuotesFromFile(String filePathString) {
         Path filePath = Paths.get(filePathString);
 
         Quotes[] testQuotesParse = new Quotes[]{};
 
         try {
-            testQuotesParse = parseQuotes(filePath);
+            String quotesJson = parseQuotes(Files.newBufferedReader(filePath));
+            Gson quotesParserGson = new Gson();
+            testQuotesParse = quotesParserGson.fromJson(quotesJson, Quotes[].class);
         } catch (IOException ex) {
             System.out.println("I could not read these files. Please try again.");
             ex.printStackTrace();
@@ -36,24 +108,18 @@ public class RenderQuotes {
         return testQuotesParse;
     }
 
-    public static Quotes[] parseQuotes(Path quotesPath) throws IOException {
+    public static String parseQuotes(BufferedReader readQuotes) throws IOException {
 
         String quoteFile = "";
 
-        try (BufferedReader readQuotes = Files.newBufferedReader(quotesPath)) {
 
-            String currentLine = readQuotes.readLine();
-            while (currentLine != null) {
-                quoteFile += currentLine;
-                currentLine = readQuotes.readLine();
-            }
+        String currentLine = readQuotes.readLine();
+        while (currentLine != null) {
+            quoteFile += currentLine;
+            currentLine = readQuotes.readLine();
         }
 
-        Gson quotesParserGson = new Gson();
-
-        Quotes[] quotesArray = quotesParserGson.fromJson(quoteFile, Quotes[].class);
-
-        return quotesArray;
+        return quoteFile;
     }
 
     public static String shuffleQuotes(Quotes[] quotesToShuffle, double inputNumber) {
