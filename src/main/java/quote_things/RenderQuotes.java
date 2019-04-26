@@ -11,11 +11,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class renderQuotes {
+public class RenderQuotes {
 
     public static void main(String[] args) {
 
-        Path filePath = Paths.get("./assets/quotes.json");
+        Quotes[] quoteList = getQuotes("./assets/quotes.json");
+
+        System.out.println(shuffleQuotes(quoteList, Math.random()));
+        ;
+    }
+
+    public static Quotes[] getQuotes(String filePathString) {
+        Path filePath = Paths.get(filePathString);
 
         Quotes[] testQuotesParse = new Quotes[]{};
 
@@ -26,7 +33,7 @@ public class renderQuotes {
             ex.printStackTrace();
         }
 
-        shuffleQuotes(testQuotesParse);
+        return testQuotesParse;
     }
 
     public static Quotes[] parseQuotes(Path quotesPath) throws IOException {
@@ -40,8 +47,6 @@ public class renderQuotes {
                 quoteFile += currentLine;
                 currentLine = readQuotes.readLine();
             }
-        } catch (IOException ex) {
-            throw ex;
         }
 
         Gson quotesParserGson = new Gson();
@@ -51,10 +56,10 @@ public class renderQuotes {
         return quotesArray;
     }
 
-    public static void shuffleQuotes(Quotes[] quotesToShuffle) {
+    public static String shuffleQuotes(Quotes[] quotesToShuffle, double inputNumber) {
         int arrayLength = quotesToShuffle.length;
-        int randomNum = (int) Math.random() * arrayLength;
+        int randomNum = (int) (inputNumber * arrayLength);
 
-        System.out.println(quotesToShuffle[randomNum]);
+        return quotesToShuffle[randomNum].toString();
     }
 }

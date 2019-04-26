@@ -8,10 +8,10 @@ public class Quotes {
     public String text;
 
     public String toString() {
-        String stringyQuote = "\"";
+        String stringyQuote = "";
 
         stringyQuote += text;
-        stringyQuote += "\" \n -";
+        stringyQuote += "\n -";
         stringyQuote += author;
         stringyQuote += "\ntags:";
         for (String tag : tags) {

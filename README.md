@@ -5,7 +5,9 @@ a random quote from a variety of individuals such as Tove Jansson, Miguel Ruiz, 
 
 ## Installation 
 
-    Git Clone the repo onto your local enviornment, ensuring that you have JDK 1.8 and Gradle installed. 
+    Git Clone the repo onto your local enviornment from your command line/terminal, ensuring that you have JDK 1.8 and Gradle installed.
+    
+    ex: git clone https://github.com/MerrybyPractice/java-quotes.git 
 
 ## Dependencies 
 
