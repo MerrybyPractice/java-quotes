@@ -8,13 +8,17 @@ a random quote from a variety of individuals such as Tove Jansson, Miguel Ruiz, 
     Git Clone the repo onto your local enviornment from your command line/terminal, ensuring that you have JDK 1.8 and Gradle installed.
     
     ex: git clone https://github.com/MerrybyPractice/java-quotes.git 
-
+        
 ## Dependencies 
 
     This app makes enstenive use of Gson, a google  produced library that allows Java to parse json files. 
     
     To ensure Gson is properly installed, either open the repository in the IntelliJ IDE or, if you prefer a different 
     IDE, run ./gradlew build at the root of your project from the command line. 
+    
+## Run the App from a CLI 
+
+    Once the App is fully cloned and all dependencies loaded in, use ./gradlew run from root of the program in your command line.  
     
 ## renderQuotes class 
 
